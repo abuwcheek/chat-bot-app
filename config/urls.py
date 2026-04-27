@@ -6,5 +6,15 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
+    # Bizning API manzillarimiz
     path('', include('chatbot.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    
+    # Autentifikatsiya (Login/Logout/Register) uchun DRF tayyor manzillari
+    path('api-auth/', include('rest_framework.urls')),
+]
+
+
+# Media fayllar (profil rasmlari) uchun
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -27,12 +27,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # my apps
-    'chatbot',
+    # 3-party apps (O'rnatilgan tashqi kutubxonalar)
+    'rest_framework',          # DRF ishlashi uchun shart!
+    'rest_framework.authtoken', # Token orqali login qilish uchun (agar kerak bo'lsa)
+    'corsheaders',             # Frontend xatolarini oldini olish uchun
 
+    # My apps (Sening ilovang)
+    'chatbot',                 # Ilovang nomi 'chatbot' ekan, buni yozgansan
 ]
 
+
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # Shu qatorni qo'sh
+    'django.middleware.common.CommonMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -42,12 +51,17 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+# Hozircha hamma joydan kirishga ruxsat beramiz (faqat rivojlantirish uchun, productionda o'zgartirish kerak)
+CORS_ALLOW_ALL_ORIGINS = True 
+
+
 ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

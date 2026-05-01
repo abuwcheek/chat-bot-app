@@ -1,9 +1,13 @@
 from rest_framework import viewsets, status
 from django.shortcuts import render
+from django.http import JsonResponse
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.models import User
+from django.views.decorators.http import require_POST
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .models import ChatSession, Message
+from .models import ChatSession, Message, Profile
 from .serializers import ChatSessionSerializer, MessageSerializer
 
 

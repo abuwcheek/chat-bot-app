@@ -21,15 +21,17 @@
                 </div>
 
             <div class="sidebar-footer p-3">
-                <hr class="text-secondary">
+                <hr style="border-color: #e2e8f0;">
                 
-                <button class="btn w-100" id="signin-text" style="background: transparent; border: 1px solid rgba(255,255,255,0.3); color: white; transition: all 0.2s ease; padding: 0.5rem 0;">
+                <button class="btn w-100" id="signin-text" style="background: transparent; border: 2px solid #0ea5e9; color: #0ea5e9; font-weight: 600; border-radius: 10px; transition: all 0.3s ease; padding: 0.7rem 0;">
                     Saytga kirish
                 </button>
                 <style>
                     #signin-text:hover {
-                        background-color: rgba(255,255,255,0.1) !important;
-                        border-color: rgba(255,255,255,0.5) !important;
+                        background-color: #e0f2fe !important;
+                        border-color: #0284c7 !important;
+                        color: #0284c7 !important;
+                        transform: translateY(-1px);
                     }
                 </style>
             </div>
@@ -37,9 +39,9 @@
 
         <main class="col-md-9 ms-sm-auto col-lg-10 d-flex flex-column px-0" id="chat-main">
             <div class="top-header d-flex justify-content-between align-items-center p-3">
-                <div class="chat-model-name fw-bold text-secondary"></div>
+                <div class="chat-model-name fw-bold" style="color: #1e293b;"></div>
                 {% if user.is_authenticated %}
-                <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" id="new-chat-btn">
+                <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" id="new-chat-btn" style="border-color: #0ea5e9; color: #0ea5e9; font-weight: 600;">
                     <i class="fas fa-plus me-1"></i> Yangi chat
                 </button>
                 {% endif %}
@@ -48,7 +50,7 @@
             <div id="chat-container" class="flex-grow-1 overflow-auto">
                 <div id="welcome-screen" class="text-center d-flex flex-column justify-content-center align-items-center h-100">
                     {% if not user.is_authenticated %}
-                    <h2 class="text-white fw-bold mb-4">Assalomu aleykum, Chatbot ga xush kelibsiz!</h2>
+                    <h2 class="text-dark fw-bold mb-4" style="font-size: 1.8rem; line-height: 1.3;">Assalomu aleykum, Chatbot ga xush kelibsiz!</h2>
                     <div class="d-grid gap-3" style="max-width: 300px;">
                         <button class="btn btn-lg btn-google w-100 d-flex align-items-center justify-content-center">
                             <i class="fab fa-google me-2"></i>
@@ -57,7 +59,7 @@
                         <button class="btn btn-lg btn-signup w-100">Ro'yxatdan o'tish</button>
                     </div>
                     {% else %}
-                    <h2 class="text-white fw-bold">Qanday yordam bera olaman?</h2>
+                    <h2 class="text-dark fw-bold">Qanday yordam bera olaman?</h2>
                     {% endif %}
                 </div>
                 <div id="messages-list" class="mx-auto" style="max-width: 800px;"></div>
@@ -72,7 +74,7 @@
                         </button>
                     </div>
                 </div>
-                <p class="text-center text-secondary mt-2 x-small">AI xato qilishi mumkin. Ma'lumotlarni tekshiring.</p>
+                <p class="text-center mt-2 x-small" style="color: #64748b;">AI xato qilishi mumkin. Ma'lumotlarni tekshiring.</p>
             </div>
         </main>
     </div>

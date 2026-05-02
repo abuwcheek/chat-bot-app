@@ -15,16 +15,20 @@ class BaseModel(models.Model):
 
 
 
+# Foydalanuvchi shaxsiy ma'lumotlari (Ism, Familiya, Rasm)
 class Profile(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
-    phone = models.CharField(max_length=20, null=True, blank=True)
+    first_name = models.CharField(max_length=100, verbose_name="Ism")
+    last_name = models.CharField(max_length=100, verbose_name="Familiya")
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True, verbose_name="Profil rasmi")
+    phone = models.CharField(max_length=20, null=True, blank=True, verbose_name="Telefon raqami")
     
     def __str__(self):
-        return self.user.username
+        return f"{self.first_name} {self.last_name} ({self.user.email})"
 
 
 
+# Chat sessiyalari
 class ChatSession(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sessions')
     title = models.CharField(max_length=255, default="Yangi suhbat")
@@ -37,6 +41,7 @@ class ChatSession(BaseModel):
 
 
 
+# Xabarlar
 class Message(BaseModel):
     session = models.ForeignKey(ChatSession, on_delete=models.CASCADE, related_name='messages')
     sender_type = models.CharField(max_length=10, choices=[('user', 'User'), ('bot', 'Bot')])

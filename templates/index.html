@@ -25,58 +25,57 @@
 
 <div class="container-fluid h-100">
     <div class="row h-100">
-        <!-- Sidebar -->
+        
+        <!-- SIDEBAR BOSHLANISHI -->
         <nav class="col-md-3 col-lg-2 sidebar d-flex flex-column" id="sidebar">
-            <div class="sidebar-header pt-2 px-3"></div>
-
-            <div id="chat-history-list" class="list-group list-group-flush flex-grow-1 overflow-auto mt-3 px-2">
-                <!-- app.js orqali yuklanadi -->
+            
+            <!-- Sidebar Header & Sarlavha -->
+            <div class="sidebar-header pt-4 px-3">
+                <h6 class="text-muted px-2 mb-0 text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 1px;">
+                    Chatlar tarixi
+                </h6>
             </div>
 
-            <div class="sidebar-footer p-3 position-relative">
-                <hr style="border-color: var(--border-color); opacity: 0.1;">
-                
-                {% if not user.is_authenticated %}
-                <a href="{% url 'login' %}" class="btn-login-outline w-100 d-block text-decoration-none text-center py-2">
-                    Saytga kirish
-                </a>
-                {% else %}
+            <!-- Chatlar ro'yxati (app.js orqali yuklanadi) -->
+            <div id="chat-history-list" class="list-group list-group-flush flex-grow-1 overflow-auto mt-3 px-2">
+                <!-- app.js ma'lumotlarni shu yerga joylaydi -->
+            </div>
+
+            <!-- Sidebar Footer (Profil qismi) -->
+            <div class="sidebar-footer p-3">
+                {% if user.is_authenticated %}
                 <div class="dropup">
-                    <!-- Sidebar Footer Profil Qismi -->
-                    <div class="d-flex align-items-center px-2 py-2 profile-trigger" 
-                         id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false" 
-                         style="cursor: pointer; border-radius: 12px; transition: background 0.2s;">
+                    <div class="d-flex align-items-center justify-content-between px-2 py-2 profile-trigger" 
+                        id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
                         
-                        <img src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}{% static 'default-profile.png' %}{% endif %}" 
-                             class="rounded-circle me-2" width="32" height="32" style="object-fit: cover;">
-                        
-                        <span class="small text-light text-truncate fw-medium">
-                            {% if user.is_staff %}Admin{% else %}{{ user.first_name }} {{ user.last_name }}{% endif %}
-                        </span>
+                        <div class="d-flex align-items-center overflow-hidden">
+                            <img src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}{% static 'default-profile.png' %}{% endif %}" 
+                                class="rounded-circle me-2" width="34" height="34" style="object-fit: cover;">
+                            <div class="d-flex flex-column overflow-hidden">
+                                <span class="profile-name-text text-truncate" style="max-width: 100px;">
+                                    {% if user.is_staff %}Admin{% else %}{{ user.profile.first_name }} {{ user.profile.last_name }}{% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        <i class="fas fa-ellipsis-h text-muted small"></i>
                     </div>
 
-                    <!-- ChatGPT uslubidagi ochiluvchi menyu -->
-                    <ul class="dropdown-menu dropdown-menu-dark custom-profile-menu shadow-lg" aria-labelledby="profileDropdown">
-                        <li class="px-3 py-2 border-bottom border-secondary mb-1">
+                    <ul class="dropdown-menu dropdown-menu-dark custom-profile-menu shadow-lg w-100" aria-labelledby="profileDropdown">
+                        <li class="px-3 py-3 border-bottom border-secondary mb-1">
                             <div class="d-flex align-items-center">
                                 <img src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}{% static 'default-profile.png' %}{% endif %}" 
-                                    class="rounded-circle me-2" width="36" height="36" style="object-fit: cover;">
-                                <div class="d-flex flex-column overflow-hidden">
-                                    <span class="small text-light fw-bold text-truncate">
-                                        {% if user.is_staff %}Admin{% else %}{{ user.first_name }} {{ user.last_name }}{% endif %}
+                                    class="rounded-circle me-2" width="38" height="38" style="object-fit: cover;">
+                                <div class="d-flex flex-column">
+                                    <span class="fw-bold text-light small">
+                                        {{ user.username }}
                                     </span>
-                                    <span class="text-muted" style="font-size: 11px;">{% if user.is_staff %}Yaratuvchi{% else %}Free{% endif %}</span>
                                 </div>
                             </div>
                         </li>
+                        <li><a class="dropdown-item py-2" href="#"><i class="far fa-user-circle me-2"></i> Profile</a></li>
                         <li>
-                            <a class="dropdown-item py-2" href="">
-                                <i class="far fa-user me-2"></i> Profile
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item py-2 text-danger border-top border-secondary mt-1" href="{% url 'logout' %}">
-                                <i class="fas fa-sign-out-alt me-2"></i> Log out
+                            <a class="dropdown-item d-flex align-items-center justify-content-between py-2 text-danger" href="{% url 'logout' %}">
+                                <span><i class="fas fa-sign-out-alt me-2"></i> Log out</span>
                             </a>
                         </li>
                     </ul>
@@ -84,32 +83,38 @@
                 {% endif %}
             </div>
         </nav>
+        <!-- SIDEBAR TUGASHI -->
 
-        <!-- Main Chat -->
+        <!-- MAIN CHAT BOSHLANISHI -->
         <main class="col-md-9 ms-sm-auto col-lg-10 d-flex flex-column px-0" id="chat-main">
+            
+            <!-- Top Header -->
             <div class="top-header d-flex justify-content-end align-items-center p-3">
                 {% if user.is_authenticated %}
-                <button class="btn btn-sm" id="new-chat-btn">
+                <button class="btn btn-sm btn-outline-light" id="new-chat-btn">
                     <i class="fas fa-plus me-1"></i> Yangi chat
                 </button>
                 {% endif %}
             </div>
 
+            <!-- Messages Area -->
             <div id="chat-container" class="flex-grow-1 overflow-auto px-4">
                 <div id="welcome-screen" class="text-center d-flex flex-column justify-content-center align-items-center h-100">
                     {% if not user.is_authenticated %}
-                    <h2 class="mb-4 text-light">Chatbotga xush kelibsiz</h2>
-                    <div class="d-grid gap-3 w-100" style="max-width: 320px;">
-                        <button class="btn btn-google py-2"><i class="fab fa-google me-2"></i> Google</button>
-                        <a href="{% url 'register' %}" class="btn btn-signup py-2">Ro'yxatdan o'tish</a>
-                    </div>
+                        <h2 class="mb-4 text-light">Assalomu aleykum. Chatbotga xush kelibsiz</h2>
+                        <div class="d-grid gap-3 w-100" style="max-width: 320px;">
+                            <button class="btn btn-google py-2"><i class="fab fa-google me-2"></i> Google orqali kirish</button>
+                            <a href="{% url 'register' %}" class="btn btn-signup py-2">Ro'yxatdan o'tish</a>
+                        </div>
                     {% else %}
-                    <h2 class="text-light fw-light">Qanday yordam bera olaman?</h2>
+                        <h2 class="text-light fw-light">Qanday yordam bera olaman?</h2>
                     {% endif %}
                 </div>
+                <!-- Xabarlar ro'yxati -->
                 <div id="messages-list" class="mx-auto" style="max-width: 750px;"></div>
             </div>
 
+            <!-- Input Area -->
             <div class="chat-input-area pb-4 px-3" {% if not user.is_authenticated %}style="display: none;"{% endif %}>
                 <div class="input-wrapper mx-auto d-flex">
                     <input type="text" id="user-input" class="form-control" placeholder="Xabar yozing...?">
@@ -117,11 +122,12 @@
                         <i class="fas fa-arrow-up"></i>
                     </button>
                 </div>
-                <p class="text-center mt-2" style="color: var(--text-muted); font-size: 11px;">
+                <p class="text-center mt-2 text-muted" style="font-size: 11px;">
                     AI xato qilishi mumkin. Ma'lumotlarni tekshiring.
                 </p>
             </div>
         </main>
+
     </div>
 </div>
 
@@ -140,7 +146,7 @@
         });
 
         setTimeout(() => {
-            flashWrapper.classList.add('flash-hidden');
+            if(flashWrapper) flashWrapper.style.display = 'none';
         }, 4500);
     });
 </script>

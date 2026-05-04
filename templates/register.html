@@ -16,7 +16,7 @@
     {% for message in messages %}
     <div class="flash-message {{ message.tags }}">
         <span>{{ message }}</span>
-        <button type="button" class="flash-close" aria-label="Yopish">&times;</button>
+        <button type="button" class="flash-close">&times;</button>
     </div>
     {% endfor %}
 </div>
@@ -27,24 +27,47 @@
     
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
+
+        <!-- Umumiy xatoliklarni ko'rsatish -->
+        {% if form.errors %}
+            <div class="alert alert-danger text-start" style="font-size: 13px;">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        • {{ error }}<br>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    • {{ error }}<br>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <div class="row">
             <div class="col-md-6 mb-3 text-start">
                 <label class="form-label">Ism</label>
-                <input type="text" name="first_name" class="form-control" placeholder="Ismingiz" required>
+                <input type="text" name="first_name" class="form-control" placeholder="Ismingiz" value="{{ request.POST.first_name }}" required>
             </div>
             <div class="col-md-6 mb-3 text-start">
                 <label class="form-label">Familiya</label>
-                <input type="text" name="last_name" class="form-control" placeholder="Familiyangiz" required>
+                <input type="text" name="last_name" class="form-control" placeholder="Familiyangiz" value="{{ request.POST.last_name }}" required>
             </div>
         </div>
+
+        <div class="mb-3 text-start">
+            <label class="form-label">Profil rasmi (ixtiyoriy)</label>
+            <input type="file" name="image" class="form-control" accept="image/*">
+        </div>
+
         <div class="mb-3 text-start">
             <label class="form-label">Email</label>
-            <input type="email" name="email" class="form-control" placeholder="example@mail.com" required>
+            <input type="email" name="email" class="form-control" placeholder="example@mail.com" value="{{ request.POST.email }}" required>
         </div>
+
         <div class="mb-3 text-start">
             <label class="form-label">Parol</label>
             <input type="password" name="password" class="form-control" placeholder="Parol yarating" required>
         </div>
+
         <div class="mb-4 text-start">
             <label class="form-label">Parolni tasdiqlang</label>
             <input type="password" name="password_confirm" class="form-control" placeholder="Parolni qayta kiriting" required>
@@ -61,17 +84,12 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const flashWrapper = document.querySelector('.flash-wrapper');
-        if (!flashWrapper) return;
-
-        flashWrapper.querySelectorAll('.flash-close').forEach(btn => {
-            btn.addEventListener('click', function() {
-                this.closest('.flash-message')?.remove();
+        if (flashWrapper) {
+            flashWrapper.querySelectorAll('.flash-close').forEach(btn => {
+                btn.addEventListener('click', () => btn.closest('.flash-message').remove());
             });
-        });
-
-        setTimeout(() => {
-            flashWrapper.classList.add('flash-hidden');
-        }, 4500);
+            setTimeout(() => flashWrapper.classList.add('flash-hidden'), 4000);
+        }
     });
 </script>
 </body>
